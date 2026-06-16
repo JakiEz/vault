@@ -1,12 +1,20 @@
 ---
 type: moc
 description: Map of Content — 1–2 line summary of every note in the vault. Read this first to find the right file without opening all of them.
-updated: 2026-06-11
+updated: 2026-06-16
 ---
 
 # Vault Index (Map of Content)
 
 > Hub note. Each entry summarizes a note in 1–2 lines so the right file can be found (and answered from) without opening everything. Keep this updated when notes are added or substantially changed.
+
+## Taiwan Internship / Exchange
+
+- [[taiwan-internship]] — Hub for my LHU exchange research internship: connections table, outreach status, candidate project angles. **Start here for internship/contacts.**
+- [[prof-ting-chung-yu]] — Pre-meeting research on Prof. Ting-Chung Yu (余定中, LHU EE): solar/MPPT applied lane vs. his theoretical transmission-line modeling work, plus pitch angles.
+- [[LHU_Project_Notes_2026-06-16]] — **Chosen internship project:** ESP32 solar-PV **MPPT** monitoring + dashboard under Prof. Cheng-Chuan Chen (陳政傳); deadline 31 Jul 2026. Full scoping — MPPT/P&O, boost converter sizing, Simulink build, parts list, advisor landscape, timeline. **Current project of record.**
+- [[lhu-ee-advisor-candidates]] — Shortlist of LHU power-electronics/embedded professors (Chai 翟瑞元, Wang 王漢堃, Lin 林威宏) from the earlier **active-balancing** direction (now superseded by the MPPT plan). In `Inbox/`.
+- [[Mail note]] — Outreach email drafts to Prof. Yu (open-ended + solar-focused versions).
 
 ## Projects
 

@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "ecdeb4e04a5aad4e",
+        "id": "82136ddd4d26472c",
         "type": "tabs",
         "children": [
           {
-            "id": "d087b4d240f05517",
+            "id": "093d7382d3f73006",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "STEP FOR CLAUDE LOOP.md",
+                "file": "LHU_Project_Notes_2026-06-16.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "STEP FOR CLAUDE LOOP"
+              "title": "LHU_Project_Notes_2026-06-16"
             }
           }
         ]
@@ -94,6 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "LHU_Project_Notes_2026-06-16.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for LHU_Project_Notes_2026-06-16"
             }
           },
           {
@@ -152,8 +153,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -168,26 +168,43 @@
       "claude-code-mcp:Toggle Claude Terminal": false
     }
   },
-  "active": "d087b4d240f05517",
+  "active": "093d7382d3f73006",
   "lastOpenFiles": [
-    "CLAUDE.md.tmp.16804.00f0a757afb7",
-    "CLAUDE.md",
-    "CLAUDE.md.tmp.16804.aa6df679a1bd",
-    "STEP FOR CLAUDE LOOP.md",
-    "Ideas",
-    "Career",
-    "Life Notes",
-    "Studying",
-    "Progress log",
-    "Projects",
+    "Untitled.md",
+    "INDEX.md.tmp.45412.b00b8ed90b76",
+    "taiwan-internship.md.tmp.45412.46029a60c848",
+    "taiwan-internship.md.tmp.45412.8b534f0b7459",
+    "taiwan-internship.md.tmp.45412.d5c3afc9e754",
+    "taiwan-internship.md.tmp.45412.cdb1f38a8a9a",
+    "taiwan-internship.md.tmp.45412.8e17dd82b3be",
+    "taiwan-internship.md.tmp.45412.6a42ca8a6877",
+    "LHU_Project_Notes_2026-06-16.md.tmp.45412.76264ea13314",
+    "LHU_Project_Notes_2026-06-16.md",
+    "taiwan-internship.md",
+    "Inbox/lhu-ee-advisor-candidates.md",
+    "prof-ting-chung-yu.md",
     "INDEX.md",
-    "INDEX.md.tmp.16804.cd0fc2733329",
-    "Projects/portfolio-tracker-plan.md",
+    "Battery Energy Storage System (Bess).md",
+    "taiwan-internship.md.tmp.30420.ddc691724e26",
+    "Inbox/lhu-ee-advisor-candidates.md.tmp.30420.2ee99bbbeed3",
+    "edutainment-platform-docs/business-model.md",
+    "edutainment-platform-docs/api-signals.md",
+    "edutainment-platform-docs/video-pipeline.md",
+    "edutainment-platform-docs/video-event-dimension-mapping.md",
+    "edutainment-platform-docs/tech-stack.md",
+    "edutainment-platform-docs/team-structure.md",
+    "edutainment-platform-docs/profile-taxonomy.md",
+    "edutainment-platform-docs/my-role-desktop-app.md",
+    "edutainment-platform-docs/game-development-strategy.md",
+    "edutainment-platform-docs/database-schema.md",
+    "edutainment-platform-docs/architecture.md",
+    "Life Notes/Mail note.md",
+    "CLAUDE.md",
     "Progress log/bms-project-context.md",
-    "Untitled.base",
-    "portfolio-tracker-plan.md.tmp.16804.97ccc4a129e7",
-    "2025-11-23.md",
+    "Untitled.canvas",
+    "STEP FOR CLAUDE LOOP.md",
     "2025-02-18.md",
-    "Untitled.canvas"
+    "Projects/portfolio-tracker-plan.md",
+    "2025-11-23.md"
   ]
 }
