@@ -14,7 +14,12 @@ updated: 2026-06-16
 - [[prof-ting-chung-yu]] — Pre-meeting research on Prof. Ting-Chung Yu (余定中, LHU EE): solar/MPPT applied lane vs. his theoretical transmission-line modeling work, plus pitch angles.
 - [[LHU_Project_Notes_2026-06-16]] — **Chosen internship project:** ESP32 solar-PV **MPPT** monitoring + dashboard under Prof. Cheng-Chuan Chen (陳政傳); deadline 31 Jul 2026. Full scoping — MPPT/P&O, boost converter sizing, Simulink build, parts list, advisor landscape, timeline. **Current project of record.**
 - [[lhu-ee-advisor-candidates]] — Shortlist of LHU power-electronics/embedded professors (Chai 翟瑞元, Wang 王漢堃, Lin 林威宏) from the earlier **active-balancing** direction (now superseded by the MPPT plan). In `Inbox/`.
+- [[Heliostat_Field_Notes]] — CUMCM 2023 Problem A (tower CSP / heliostat-field optimization): site setup, optical-efficiency model, official formulas (verified), the 3 sub-problems, and critical error-callouts on two reference papers. The **seed problem** behind the MPPT project; a MATLAB/Python modeling warm-up. Deadline 31 Jul 2026.
 - [[Mail note]] — Outreach email drafts to Prof. Yu (open-ended + solar-focused versions).
+
+## Interests / ideas
+
+- [[interests]] — Running list of tech topics I want to explore (ATS heat→electricity, CPO optical interconnects). In `Inbox/`.
 
 ## Projects
 

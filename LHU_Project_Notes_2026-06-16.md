@@ -201,4 +201,4 @@ Climb one of three ladders — harder algorithm, harder conditions, harder valid
 - [[lhu-ee-advisor-candidates]] — earlier power-electronics/embedded shortlist from the **active-balancing** direction (now superseded by this MPPT plan; kept for advisor fit info).
 - [[bms-project-context]] — my BMS/embedded background (ESP32, sensing, telemetry, FSAE) that this project reuses.
 - [[Mail note]] — outreach email drafts to adapt for Prof. Chen.
-- Seed problem: **CUMCM 2023 A — heliostat field optimization** (CSP) at `D:\kmutt\internship\research\cumcm2023a\` (`A题.pdf` + `附件.xlsx`); led to the "CSP is niche → go solar PV + MPPT" conclusion in §1.
+- [[Heliostat_Field_Notes]] — seed problem: **CUMCM 2023 A — heliostat field optimization** (CSP); led to the "CSP is niche → go solar PV + MPPT" conclusion in §1. Files at `D:\kmutt\internship\research\cumcm2023a\` (`A题.pdf` + `附件.xlsx`).
