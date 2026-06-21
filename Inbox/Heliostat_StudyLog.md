@@ -1,6 +1,6 @@
 ---
 type: study-log
-description: Learning progress on the heliostat Python model — running log of what I understood and where to resume. Currently on Step 1 (solar geometry).
+description: Learning progress on the heliostat Python model — running log of what I understood and where to resume. Step 1 (solar geometry) DONE; now on Step 2 (per-mirror efficiencies).
 created: 2026-06-21
 updated: 2026-06-21
 related: [[Heliostat_Field_Notes]]
@@ -16,8 +16,8 @@ Build **one function** `field_performance(layout) -> efficiency, power`. Q1 = ca
 Power chain: `sun position → DNI (light strength) × 5 efficiency losses × mirror area = power on receiver`. Do it for 60 sun snapshots, average → annual answer.
 
 ## Build order (do not skip ahead)
-1. **Solar geometry** → sun direction + DNI for 60 timestamps ← *I am here*
-2. Easy losses (cosine, atmospheric, reflectivity) — per-mirror formulas
+1. **Solar geometry** → sun direction + DNI for 60 timestamps ✅ **done 2026-06-21**
+2. Easy losses (cosine, atmospheric, reflectivity) — per-mirror formulas ← *I am here*
 3. Aggregate with η_sb = η_trunc = 1 → inflated number (proves plumbing)
 4. Shadow & blocking (η_sb) — ray-casting vs neighbors
 5. Truncation (η_trunc) — beam is a cone, spills off receiver
@@ -74,7 +74,31 @@ Power chain: `sun position → DNI (light strength) × 5 efficiency losses × mi
 
 **Combine into altitude:** `sin(altitude) = cos δ · cos φ · cos ω + sin δ · sin φ`  (φ = 39.4° N).
 
-## Next
-- [ ] Combine δ + ω + φ → altitude on one worked example (**Jun 21, 9:00**: δ=+23.4°, ω=−0.79) and confirm it's a sensible height.
-- [ ] Turn altitude → **DNI** via `DNI = G₀[a + b·exp(−c/sin α)]`, G₀=1.366, H=3 km.
-- [ ] Then build the robust sun **unit vector** (use the δ/ω decomposition to dodge the azimuth AM/PM sign trap — see [[Heliostat_Field_Notes]]).
+## 2026-06-21 (cont.) — Step 1 COMPLETE ✅
+Built the full sun model end-to-end: date+time → declination → hour angle → altitude → DNI for all 60 timestamps. Working script saved at `Inbox/heliostat_step1.py`.
+
+**Validation — December (sin α and DNI in kW/m²):**
+| Time | sin α | DNI |
+|---|---|---|
+| 9:00 | 0.249 | 0.739 |
+| 10:30 | 0.403 | 0.875 |
+| 12:00 | 0.457 | 0.910 ← noon peak |
+| 13:30 | 0.403 | 0.875 |
+| 15:00 | 0.249 | 0.739 |
+
+Cross-check: **June noon** sin α ≈ 0.961 (sun ~74° up). The big winter/summer gap (0.46 vs 0.96) confirms the season is feeding through correctly. DNI always lands in the ~0.7–1.0 band.
+
+**Four bugs found & fixed (all "value-vs-angle" or sign traps — watch for these again):**
+1. **Latitude not in radians** — passed `39.4` into `sin/cos` instead of the `radians()` variable. `cos(39.4 rad)` is negative → flipped the whole altitude formula (noon came out lowest/negative). Fix: pass `latitude`.
+2. **sin δ used as δ** — `season()` returned sin δ but `altitude()` applied `sin/cos` to it as if it were the angle. Fix: `season` returns `asin(sin_dec)` = real declination angle.
+3. **DNI exponent sign** — had `exp(+c/sinα)`, must be `exp(−c/sinα)`. The minus = atmospheric survival (high sun → stronger DNI). Wrong sign inverted day/noon.
+4. **Sine-of-a-sine** — called `dni(math.sin(sunAngle))` but `sunAngle` was already `sin α` → ~1% low everywhere. Fix: `dni(sunAngle)`.
+
+**Habit:** round only at `print()` time, not at every stage (rounding stacks over 60×N calls).
+
+## Next — Step 2: per-mirror efficiencies
+- [ ] **New ingredient first:** build the sun **3D unit vector** — `s_x = −cosδ·sinω`, `s_y = sinδ·cosφ − cosδ·sinφ·cosω`, `s_z = sinα`. Needed for cosine; also dodges the azimuth AM/PM sign trap (see [[Heliostat_Field_Notes]]).
+- [ ] Load the **1745 mirror positions** from `附件.xlsx` (x, y; z = install height = 4 m for Q1).
+- [ ] **Cosine** `η_cos = sqrt((1 + s·t)/2)`, where `t = unit(receiver_center − mirror)`, receiver at (0,0,80).
+- [ ] **Atmospheric** `η_at(d_HR)` and **reflectivity** 0.92 (constant).
+- [ ] Aggregate with `η_sb = η_trunc = 1` → a deliberately-too-high power number → proves the plumbing before the hard losses.
