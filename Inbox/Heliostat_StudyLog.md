@@ -1,8 +1,8 @@
 ---
 type: study-log
-description: Learning progress on the heliostat Python model — running log of what I understood and where to resume. Step 1 (solar geometry) DONE; now on Step 2 (per-mirror efficiencies).
+description: Learning progress on the heliostat Python model — running log of what I understood and where to resume. Steps 1–3 DONE (solar geometry → easy losses → field power, ≈41 MW inflated); now on Step 4 (shadow & blocking).
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-06-23
 related: [[Heliostat_Field_Notes]]
 ---
 
