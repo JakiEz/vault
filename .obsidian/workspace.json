@@ -11,10 +11,12 @@
             "id": "093d7382d3f73006",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "pdf",
+              "state": {
+                "file": "Heliostat/ProblemHeliostat.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "ProblemHeliostat"
             }
           }
         ]
@@ -90,6 +92,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Heliostat/ProblemHeliostat.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -99,7 +102,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks"
+              "title": "Backlinks for ProblemHeliostat"
             }
           },
           {
@@ -148,7 +151,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -165,22 +169,27 @@
   },
   "active": "093d7382d3f73006",
   "lastOpenFiles": [
-    "Inbox/interests.md.tmp.37548.0fb639e77ffb",
-    "Inbox/interests.md.tmp.37548.cc3f1832945d",
-    "INDEX.md.tmp.37548.685a0d3590b8",
-    "Inbox/interests.md",
-    "Inbox/interests.md.tmp.37548.bac090459137",
-    "taiwan-internship.md",
-    "ProblemHeliostat.pdf",
-    "INDEX.md.tmp.37148.e6332e96da70",
-    "Heliostat_Field_Notes.md.tmp.37148.2c2fed7fe31a",
-    "Heliostat_Field_Notes.md.tmp.37148.3beb1ed89a00",
-    "Heliostat_Field_Notes.md.tmp.37148.e8cfb4d9d109",
-    "Heliostat_Field_Notes.md",
-    "Paper2_Jia_EN.docx",
-    "Paper1_Li_EN.docx",
+    "Heliostat/Paper2_Jia_EN.pdf",
+    "Heliostat/ProblemHeliostat.pdf",
+    "Heliostat/Heliostat_VideoScript.md",
+    "Heliostat/Paper1_Li_EN.pdf",
+    "Heliostat/附件.csv",
+    "Heliostat/60784200",
+    "Heliostat/~$附件.xlsx",
+    "Untitled 10.base",
+    "Untitled 9.base",
+    "Untitled 8.base",
+    "Untitled 7.base",
+    "Heliostat/Heliostat_StudyLog.md",
+    "CLAUDE.md",
     "LHU_Project_Notes_2026-06-16.md",
+    "INDEX.md",
+    "Inbox/lhu-ee-advisor-candidates.md",
+    "Inbox/interests.md",
     "edutainment-platform-docs/video-pipeline.md",
+    "Heliostat/Heliostat_Field_Notes.md",
+    "taiwan-internship.md",
+    "Heliostat_Field_Notes.md",
     "edutainment-platform-docs/video-event-dimension-mapping.md",
     "edutainment-platform-docs/tech-stack.md",
     "edutainment-platform-docs/team-structure.md",
@@ -192,15 +201,9 @@
     "edutainment-platform-docs/architecture.md",
     "edutainment-platform-docs/api-signals.md",
     "Untitled.md",
-    "Inbox/lhu-ee-advisor-candidates.md",
     "prof-ting-chung-yu.md",
-    "INDEX.md",
     "Battery Energy Storage System (Bess).md",
     "Life Notes/Mail note.md",
-    "CLAUDE.md",
-    "Progress log/bms-project-context.md",
-    "Untitled.canvas",
-    "STEP FOR CLAUDE LOOP.md",
-    "2025-02-18.md"
+    "Untitled.canvas"
   ]
 }

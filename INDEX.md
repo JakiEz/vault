@@ -21,6 +21,10 @@ updated: 2026-06-16
 
 - [[interests]] — Running list of tech topics I want to explore (ATS heat→electricity, CPO optical interconnects). In `Inbox/`.
 
+## 4th-year project
+
+- [[cpe-thesis-advisors]] — KMUTT CPE thesis/senior-project advisors and their research fields; reference for picking an advisor. In `4thyearproject/`.
+
 ## Projects
 
 - [[bms-project-context]] — Custom 10-cell FSAE Battery Management System (ESP32-C3 + LTC6811, isolated CAN, passive balancing, SD logging). Has TL;DR, hardware/firmware details, hard-won lessons, and a project-idea backlog. **Primary reference note.**
