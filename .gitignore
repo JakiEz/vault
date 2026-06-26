@@ -1,0 +1,7 @@
+# Private — never publish
+edutainment-platform-docs/
+
+# Obsidian local UI state / scratch
+.obsidian/workspace.json
+Untitled*.base
+Untitled*.canvas

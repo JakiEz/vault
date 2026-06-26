@@ -1,0 +1,209 @@
+{
+  "main": {
+    "id": "762fdcd911955fce",
+    "type": "split",
+    "children": [
+      {
+        "id": "82136ddd4d26472c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "093d7382d3f73006",
+            "type": "leaf",
+            "state": {
+              "type": "pdf",
+              "state": {
+                "file": "Heliostat/ProblemHeliostat.pdf"
+              },
+              "icon": "lucide-file-text",
+              "title": "ProblemHeliostat"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "49305304e0af194c",
+    "type": "split",
+    "children": [
+      {
+        "id": "74bb8bf88daad57d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "91f1ec63e696344a",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "7248b58e77030e90",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "1d52b217452e40b4",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "f900ca6ad0159798",
+    "type": "split",
+    "children": [
+      {
+        "id": "6a320448a1d49a60",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b440dcb678ccec94",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Heliostat/ProblemHeliostat.pdf",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for ProblemHeliostat"
+            }
+          },
+          {
+            "id": "2510633b9709576e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "b8c0428325fc50f4",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "7997c7d15fd2c6ce",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "bases:Create new base": false,
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "obsidian42-brat:BRAT": false,
+      "claude-code-mcp:Toggle Claude Terminal": false
+    }
+  },
+  "active": "093d7382d3f73006",
+  "lastOpenFiles": [
+    "Heliostat/Paper2_Jia_EN.pdf",
+    "Heliostat/ProblemHeliostat.pdf",
+    "Heliostat/Heliostat_VideoScript.md",
+    "Heliostat/Paper1_Li_EN.pdf",
+    "Heliostat/附件.csv",
+    "Heliostat/60784200",
+    "Heliostat/~$附件.xlsx",
+    "Untitled 10.base",
+    "Untitled 9.base",
+    "Untitled 8.base",
+    "Untitled 7.base",
+    "Heliostat/Heliostat_StudyLog.md",
+    "CLAUDE.md",
+    "LHU_Project_Notes_2026-06-16.md",
+    "INDEX.md",
+    "Inbox/lhu-ee-advisor-candidates.md",
+    "Inbox/interests.md",
+    "edutainment-platform-docs/video-pipeline.md",
+    "Heliostat/Heliostat_Field_Notes.md",
+    "taiwan-internship.md",
+    "Heliostat_Field_Notes.md",
+    "edutainment-platform-docs/video-event-dimension-mapping.md",
+    "edutainment-platform-docs/tech-stack.md",
+    "edutainment-platform-docs/team-structure.md",
+    "edutainment-platform-docs/profile-taxonomy.md",
+    "edutainment-platform-docs/my-role-desktop-app.md",
+    "edutainment-platform-docs/game-development-strategy.md",
+    "edutainment-platform-docs/database-schema.md",
+    "edutainment-platform-docs/business-model.md",
+    "edutainment-platform-docs/architecture.md",
+    "edutainment-platform-docs/api-signals.md",
+    "Untitled.md",
+    "prof-ting-chung-yu.md",
+    "Battery Energy Storage System (Bess).md",
+    "Life Notes/Mail note.md",
+    "Untitled.canvas"
+  ]
+}
