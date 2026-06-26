@@ -17,9 +17,9 @@ Power chain: `sun position → DNI (light strength) × 5 efficiency losses × mi
 
 ## Build order (do not skip ahead)
 1. **Solar geometry** → sun direction + DNI for 60 timestamps ✅ **done 2026-06-21**
-2. Easy losses (cosine, atmospheric, reflectivity) — per-mirror formulas ← *I am here*
-3. Aggregate with η_sb = η_trunc = 1 → inflated number (proves plumbing)
-4. Shadow & blocking (η_sb) — ray-casting vs neighbors
+2. Easy losses (cosine, atmospheric, reflectivity) — per-mirror formulas ✅ **done 2026-06-23**
+3. Aggregate with η_sb = η_trunc = 1 → inflated number (proves plumbing) ✅ **done 2026-06-23**
+4. Shadow & blocking (η_sb) — ray-casting vs neighbors ← *I am here*
 5. Truncation (η_trunc) — beam is a cone, spills off receiver
 6. Validate against **~35 MW** (Paper 2, the trustworthy one)
 → then Q2/Q3 wrap step 1–6 in an optimizer.
@@ -96,9 +96,22 @@ Cross-check: **June noon** sin α ≈ 0.961 (sun ~74° up). The big winter/summe
 
 **Habit:** round only at `print()` time, not at every stage (rounding stacks over 60×N calls).
 
-## Next — Step 2: per-mirror efficiencies
-- [ ] **New ingredient first:** build the sun **3D unit vector** — `s_x = −cosδ·sinω`, `s_y = sinδ·cosφ − cosδ·sinφ·cosω`, `s_z = sinα`. Needed for cosine; also dodges the azimuth AM/PM sign trap (see [[Heliostat_Field_Notes]]).
-- [ ] Load the **1745 mirror positions** from `附件.xlsx` (x, y; z = install height = 4 m for Q1).
-- [ ] **Cosine** `η_cos = sqrt((1 + s·t)/2)`, where `t = unit(receiver_center − mirror)`, receiver at (0,0,80).
-- [ ] **Atmospheric** `η_at(d_HR)` and **reflectivity** 0.92 (constant).
-- [ ] Aggregate with `η_sb = η_trunc = 1` → a deliberately-too-high power number → proves the plumbing before the hard losses.
+## 2026-06-23 — Steps 2 + 3 COMPLETE ✅ (easy losses + field power)
+Full pipeline runs end-to-end for all 60 timestamps. Chose the **azimuth route** (not the δ/ω decomposition): document's `cos γ_s` → `acos` (clamped) → east/west sign-fix via ω → `sunVector(α, A)`. Then per mirror: cosine (dot product + half-angle), atmospheric, reflectivity; `η_sb = η_trunc = 1`. Working script: `Inbox/heliostat_step2.py`.
+
+**Result (inflated, sb=trunc=1):** annual average ≈ **41 MW**, per-unit-area ≈ **0.65 kW/m²**. Positive, noon-peak, summer>winter. Hand-check: Dec noon field power ≈ 37 MW ✓. Will fall to the realistic **~35 MW / ~0.55 kW/m²** once shadow/block + truncation go in.
+
+**Bugs hit & fixed (this stretch):**
+1. **azimuth `acos`/precedence** — `a / b * c` ≠ `a / (b*c)`; must parenthesize `(cosα·cosφ)`. And re-add the `clamp(-1,1)` — Dec noon gives −1.00007 → `acos` domain crash without it.
+2. **`atmospheric` constant** — typed `0.00321`, must be **`0.99321`**. Made η_at negative → negative power *and* ~45× too small. Lesson: an efficiency near 0 / negative → check the leading constant.
+3. **units** — `field_power/1000` is **MW** not kW/GW; per-unit-area must be `annual_avg*1000/total_area` for **kW/m²**.
+4. **dotProduct z** — vertical component is `+76` (= 80−4), pointing up, and `Length = √(x²+y²+76²)` — not the mirror's z.
+5. **sun vector ≠ angles** — `s_x,s_y,s_z` are *computed from* (altitude, azimuth), not the angles themselves.
+
+**Key facts locked in:** area not needed for efficiency, only for power (`E = DNI·ΣAᵢηᵢ`); for equal-size mirrors per-unit-area = `DNI·mean(η)`; sun rays parallel → ŝ same for every mirror (compute once/timestamp), t̂ per mirror.
+
+## Next — Step 4: shadow & blocking (η_sb), the first hard loss
+- [ ] Concept: **shadow** = a neighbor blocks the *incoming* sun ray; **block** = a neighbor blocks the *outgoing* reflected beam to the tower. Plus tower shadow.
+- [ ] Method: sample points across each mirror; cast a ray toward ŝ (shadow) and toward t̂ (block); test intersection with *nearby* neighbor rectangles (use a spatial index / radius — don't test all 1745²). η_sb = fraction of sample points that are clear.
+- [ ] Core primitive to write & unit-test alone first: **ray → does it hit neighbor rectangle j?** (ray–plane intersect + in-rectangle test).
+- [ ] Expect η_sb to drop the field ~10–20% → toward ~35 MW with truncation still = 1.

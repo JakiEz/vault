@@ -15,7 +15,7 @@ updated: 2026-06-16
 - [[LHU_Project_Notes_2026-06-16]] — **Chosen internship project:** ESP32 solar-PV **MPPT** monitoring + dashboard under Prof. Cheng-Chuan Chen (陳政傳); deadline 31 Jul 2026. Full scoping — MPPT/P&O, boost converter sizing, Simulink build, parts list, advisor landscape, timeline. **Current project of record.**
 - [[lhu-ee-advisor-candidates]] — Shortlist of LHU power-electronics/embedded professors (Chai 翟瑞元, Wang 王漢堃, Lin 林威宏) from the earlier **active-balancing** direction (now superseded by the MPPT plan). In `Inbox/`.
 - [[Heliostat_Field_Notes]] — CUMCM 2023 Problem A (tower CSP / heliostat-field optimization): site setup, optical-efficiency model, official formulas (verified), the 3 sub-problems, and critical error-callouts on two reference papers. The **seed problem** behind the MPPT project; a MATLAB/Python modeling warm-up. Deadline 31 Jul 2026.
-- [[Heliostat_StudyLog]] — Running learning log for building the Q1 Python model myself (concept-first). Build order, worked intuitions, bug-fix log, resume pointer. **Step 1 (solar geometry) DONE**; now on Step 2 (per-mirror efficiencies). Working script: `Inbox/heliostat_step1.py`. In `Inbox/`.
+- [[Heliostat_StudyLog]] — Running learning log for building the Q1 Python model myself (concept-first). Build order, worked intuitions, bug-fix log, resume pointer. **Steps 1–3 DONE** (solar geometry → cosine/atmospheric/reflectivity → field power; ≈41 MW inflated with η_sb=η_trunc=1); now on Step 4 (shadow & blocking). Scripts: `Inbox/heliostat_step1.py`, `heliostat_step2.py`. In `Inbox/`.
 - [[Mail note]] — Outreach email drafts to Prof. Yu (open-ended + solar-focused versions).
 
 ## Interests / ideas
