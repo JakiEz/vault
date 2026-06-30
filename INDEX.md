@@ -29,6 +29,7 @@ updated: 2026-06-16
 
 - [[bms-project-context]] — Custom 10-cell FSAE Battery Management System (ESP32-C3 + LTC6811, isolated CAN, passive balancing, SD logging). Has TL;DR, hardware/firmware details, hard-won lessons, and a project-idea backlog. **Primary reference note.**
 - [[portfolio-tracker-plan]] — 8-week (2-month) build plan for the *BMS Cloud Telemetry Platform* (MQTT → Go/Node → TimescaleDB → REST/WebSocket → React). Weekly milestones + deliverables. Builds on [[bms-project-context]].
+- [[nodered-mqtt-bms-lab_2026-06-30]] — Hands-on lab log: working Docker pipeline (Mosquitto MQTT → Node-RED → PostgreSQL → dashboard) simulating 8-cell BMS telemetry. Concepts, gotchas, and cloud-readiness next steps. First practical build of [[portfolio-tracker-plan]]. In `Inbox/`.
 
 ## Daily notes
 
