@@ -85,3 +85,4 @@ Build an end-to-end IoT data pipeline that ingests CAN/MQTT data from the custom
 ## Related
 
 - [[bms-project-context]] — hardware/firmware context and the source idea backlog.
+- [[nodered-mqtt-bms-lab_2026-06-30]] — hands-on lab that prototypes Weeks 1–2 (Mosquitto broker + mock 8-cell publisher + PostgreSQL storage) in Node-RED; working end-to-end pipeline + concepts + cloud-readiness next steps. Personal portfolio work (not the LHU/Taiwan internship).
