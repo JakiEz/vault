@@ -1,6 +1,6 @@
 ---
 type: study-log
-description: Learning progress on the heliostat Python model — running log of what I understood and where to resume. Steps 1–4 DONE (solar geometry → easy losses → field power → shadow/blocking, 37.2 MW); now on Step 5 (truncation).
+description: Learning progress on the heliostat Python model — running log of what I understood and where to resume. Q1 optical model COMPLETE (all 5 losses; ~31–33 MW via Numba Monte-Carlo); next is Table 1/2 reporting + validation, then Q2/Q3.
 created: 2026-06-21
 updated: 2026-06-28
 related: [[Heliostat_Field_Notes]]
@@ -20,8 +20,8 @@ Power chain: `sun position → DNI (light strength) × 5 efficiency losses × mi
 2. Easy losses (cosine, atmospheric, reflectivity) — per-mirror formulas ✅ **done 2026-06-23**
 3. Aggregate with η_sb = η_trunc = 1 → inflated number (proves plumbing) ✅ **done 2026-06-23**
 4. Shadow & blocking (η_sb) — ray-casting vs neighbors ✅ **done 2026-06-28**
-5. Truncation (η_trunc) — beam is a cone, spills off receiver ← *I am here*
-6. Validate against **~35 MW** (Paper 2, the trustworthy one)
+5. Truncation (η_trunc) — beam is a cone, spills off receiver ✅ **done 2026-06-28**
+6. Validate + fill Table 1/2 (annual-avg optical & sub-efficiencies) ← *I am here*, then Q2/Q3
 → then Q2/Q3 wrap step 1–6 in an optimizer.
 
 ## 2026-06-21 — Step 1: finding the sun (concepts locked in)
@@ -130,8 +130,28 @@ Built the full ray-geometry engine. Working script: `Inbox/heliostat_step4.py`.
 
 **Perf note (for later):** slow part = numpy on 3-element arrays in tight loops (dispatch overhead). Fine for Q1 (run once, a few min). For Q2/Q3 (model called 1000s of times in an optimizer) → use **Numba `@njit`** (near-C speed, ~1 decorator) or plain-float math; C is faster but a full rewrite; MATLAB only faster if vectorized.
 
-## Next — Step 5: truncation (η_trunc), the last Q1 loss
-- [ ] Concept: reflected beam is a **cone** (sun angular width ~9.3 mrad + mirror slope error), so the spot at the tower is bigger than the 7 m × 8 m receiver → edges spill off and are lost.
-- [ ] Pick a method: **HFLCAL analytic** (model spot as a 2D Gaussian, integrate over the receiver aperture — fast, recommended) vs **Monte-Carlo ray trace** (sample many rays, count hits — accurate, what Paper 2 does).
-- [ ] Expect 37.2 → **~35 MW**, completing Q1's optical model (validate vs Paper 2 ≈ 34.8).
-- [ ] Then fill Table 1 (per-month) & Table 2 (annual) with the 4 sub-efficiencies + per-unit-area output.
+## 2026-06-28 — Step 5 COMPLETE ✅ — Q1 OPTICAL MODEL DONE (all 5 losses)
+Chose **Monte-Carlo ray trace** for truncation (over HFLCAL) because it's the honest model and reused later. Also ported the whole hot path to **Numba** first (see below). Working script: `Inbox/heliostat_step5_numba.py`.
+
+**Result (all 5 losses):**
+| slope error assumed | annual avg | per-unit-area |
+|---|---|---|
+| 2 mrad | **31.17 MW** | 0.496 kW/m² |
+| 1 mrad | **33.39 MW** | 0.532 kW/m² |
+Paper 2 (trustworthy) ≈ **34.8 MW / 0.554**. We're a touch lower because the MC models the **flat-mirror footprint + real beam blur** rigorously, while Paper 2 *assumed* a truncation factor. Implied optical efficiency ~0.55–0.57 — right in the papers' band (0.569–0.586). ✓
+
+**Truncation via Monte-Carlo (all [standard]; params [assumed], not in doc):**
+- Beam isn't a pencil: sun is a **disk** (~4.65 mrad) + mirror **slope error** → reflected **cone**. Flat mirrors don't focus, so the spot ≈ 6 m footprint **+** blur, on a 7 m×8 m receiver → spill.
+- Per mirror, fire **N=200** rays: random point on the mirror + aim direction `t̂` jiggled by a 2D Gaussian `σ_beam = √(σ_sun² + (2·σ_slope)²)`; trace to the receiver **cylinder**; `η_trunc = hits/N`.
+- New primitive: `hit_cyl` = **ray–cylinder intersection** (quadratic in s: `x²+y²=Rc²`, then check z∈[76,84]). Tested True/False/False in isolation.
+- **σ_slope is the tunable knob** (least-certain assumption) — 2→1 mrad moved 31.2→33.4 MW.
+- MC is **random** → result wiggles slightly run-to-run; raise N for a smoother final number.
+
+**Numba port (the enabler):** moved the whole per-timestamp mirror loop into `@njit` kernels — verified it reproduces 37.246 MW (= the pure-Python 37.245) before adding truncation. Key gotchas: **no `np.cross`/`np.linalg.norm`** in njit → scalar math; **lists-of-tuples → arrays** (frames as an (N,12) array); **ragged neighbor lists → CSR** (`nbr_flat` + `nbr_start`); loops must live *inside* `@njit`. Bug caught: `neighbors` initialized but the radius-scan that fills it was missing → η_sb silently = 1 (matched the no-shadow run).
+
+## Next — Step 6: validate + fill the tables, then Q2/Q3
+- [ ] Report **Table 1** (per-month) & **Table 2** (annual): annual-avg optical η + the 4 sub-efficiencies (cosine, shadow-block, truncation) + per-unit-area — currently only power is printed. Accumulate the η's in the kernel.
+- [ ] Compare annual optical efficiency to the papers (~0.57) as the cleanest cross-check.
+- [ ] Decide/document the σ_slope assumption (report the sensitivity range).
+- [ ] **Q2:** wrap this model in an optimizer (tower position, mirror size, install height, ring spacing) to hit 60 MW while maximizing per-unit-area. Numba speed now makes 1000s of evaluations feasible.
+- [ ] **Q3:** allow per-zone size/height to vary.

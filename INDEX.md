@@ -17,7 +17,7 @@ updated: 2026-06-16
 - [[Heliostat_Field_Notes]] — CUMCM 2023 Problem A (tower CSP / heliostat-field optimization): site setup, optical-efficiency model, official formulas (verified), the 3 sub-problems, and critical error-callouts on two reference papers. The **seed problem** behind the MPPT project; a MATLAB/Python modeling warm-up. Deadline 31 Jul 2026.
 - [[Heliostat_Formulas]] — The complete Q1 method: **every step with its formula** and source tag ([Problem doc] vs [standard]), from date/time → solar geometry → losses → field power. The one-page derivation reference. In `Inbox/`.
 - [[Heliostat_CodeMap]] — Function-by-function map of the Q1 Python model: what each function does, its source ([Problem doc] vs [standard]), and the data-flow chain. Read this to understand the code without reading every line. In `Inbox/`.
-- [[Heliostat_StudyLog]] — Running learning log for building the Q1 Python model myself (concept-first). Build order, worked intuitions, bug-fix log, resume pointer. **Steps 1–4 DONE** (solar geometry → easy losses → field power → shadow/blocking ray engine; **37.245 MW**, 0.593 kW/m²); now on Step 5 (truncation). Scripts: `Inbox/heliostat_step1.py`, `heliostat_step2.py`, `heliostat_step4.py`. In `Inbox/`.
+- [[Heliostat_StudyLog]] — Running learning log for building the Q1 Python model myself (concept-first). Build order, worked intuitions, bug-fix log, resume pointer. **Q1 optical model COMPLETE** (all 5 losses; Numba + Monte-Carlo truncation; **~31–33 MW**, ~0.5 kW/m², optical eff ~0.56); next is Table 1/2 reporting + Q2/Q3. Scripts: `Inbox/heliostat_step1/2/4.py`, `heliostat_step5_numba.py`. In `Inbox/`.
 - [[Mail note]] — Outreach email drafts to Prof. Yu (open-ended + solar-focused versions).
 
 ## Interests / ideas
