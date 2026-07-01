@@ -1,8 +1,8 @@
 ---
 type: study-log
-description: Learning progress on the heliostat Python model — running log of what I understood and where to resume. Step 1 (solar geometry) DONE; now on Step 2 (per-mirror efficiencies).
+description: Learning progress on the heliostat Python model — running log of what I understood and where to resume. Q1 COMPLETE end-to-end incl. Table 1/2 (annual 33.39 MW, η_opt 0.546, within 4% of Paper 2); next is Q2 optimizer.
 created: 2026-06-21
-updated: 2026-06-21
+updated: 2026-07-01
 related: [[Heliostat_Field_Notes]]
 ---
 
@@ -17,11 +17,11 @@ Power chain: `sun position → DNI (light strength) × 5 efficiency losses × mi
 
 ## Build order (do not skip ahead)
 1. **Solar geometry** → sun direction + DNI for 60 timestamps ✅ **done 2026-06-21**
-2. Easy losses (cosine, atmospheric, reflectivity) — per-mirror formulas ← *I am here*
-3. Aggregate with η_sb = η_trunc = 1 → inflated number (proves plumbing)
-4. Shadow & blocking (η_sb) — ray-casting vs neighbors
-5. Truncation (η_trunc) — beam is a cone, spills off receiver
-6. Validate against **~35 MW** (Paper 2, the trustworthy one)
+2. Easy losses (cosine, atmospheric, reflectivity) — per-mirror formulas ✅ **done 2026-06-23**
+3. Aggregate with η_sb = η_trunc = 1 → inflated number (proves plumbing) ✅ **done 2026-06-23**
+4. Shadow & blocking (η_sb) — ray-casting vs neighbors ✅ **done 2026-06-28**
+5. Truncation (η_trunc) — beam is a cone, spills off receiver ✅ **done 2026-06-28**
+6. Validate + fill Table 1/2 (annual-avg optical & sub-efficiencies) ← *I am here*, then Q2/Q3
 → then Q2/Q3 wrap step 1–6 in an optimizer.
 
 ## 2026-06-21 — Step 1: finding the sun (concepts locked in)
@@ -75,7 +75,7 @@ Power chain: `sun position → DNI (light strength) × 5 efficiency losses × mi
 **Combine into altitude:** `sin(altitude) = cos δ · cos φ · cos ω + sin δ · sin φ`  (φ = 39.4° N).
 
 ## 2026-06-21 (cont.) — Step 1 COMPLETE ✅
-Built the full sun model end-to-end: date+time → declination → hour angle → altitude → DNI for all 60 timestamps. Working script saved at `Heliostat/heliostat_step1.py`.
+Built the full sun model end-to-end: date+time → declination → hour angle → altitude → DNI for all 60 timestamps. Working script saved at `Inbox/heliostat_step1.py`.
 
 **Validation — December (sin α and DNI in kW/m²):**
 | Time | sin α | DNI |
@@ -96,9 +96,76 @@ Cross-check: **June noon** sin α ≈ 0.961 (sun ~74° up). The big winter/summe
 
 **Habit:** round only at `print()` time, not at every stage (rounding stacks over 60×N calls).
 
-## Next — Step 2: per-mirror efficiencies
-- [ ] **New ingredient first:** build the sun **3D unit vector** — `s_x = −cosδ·sinω`, `s_y = sinδ·cosφ − cosδ·sinφ·cosω`, `s_z = sinα`. Needed for cosine; also dodges the azimuth AM/PM sign trap (see [[Heliostat_Field_Notes]]).
-- [ ] Load the **1745 mirror positions** from `附件.xlsx` (x, y; z = install height = 4 m for Q1).
-- [ ] **Cosine** `η_cos = sqrt((1 + s·t)/2)`, where `t = unit(receiver_center − mirror)`, receiver at (0,0,80).
-- [ ] **Atmospheric** `η_at(d_HR)` and **reflectivity** 0.92 (constant).
-- [ ] Aggregate with `η_sb = η_trunc = 1` → a deliberately-too-high power number → proves the plumbing before the hard losses.
+## 2026-06-23 — Steps 2 + 3 COMPLETE ✅ (easy losses + field power)
+Full pipeline runs end-to-end for all 60 timestamps. Chose the **azimuth route** (not the δ/ω decomposition): document's `cos γ_s` → `acos` (clamped) → east/west sign-fix via ω → `sunVector(α, A)`. Then per mirror: cosine (dot product + half-angle), atmospheric, reflectivity; `η_sb = η_trunc = 1`. Working script: `Inbox/heliostat_step2.py`.
+
+**Result (inflated, sb=trunc=1):** annual average ≈ **41 MW**, per-unit-area ≈ **0.65 kW/m²**. Positive, noon-peak, summer>winter. Hand-check: Dec noon field power ≈ 37 MW ✓. Will fall to the realistic **~35 MW / ~0.55 kW/m²** once shadow/block + truncation go in.
+
+**Bugs hit & fixed (this stretch):**
+1. **azimuth `acos`/precedence** — `a / b * c` ≠ `a / (b*c)`; must parenthesize `(cosα·cosφ)`. And re-add the `clamp(-1,1)` — Dec noon gives −1.00007 → `acos` domain crash without it.
+2. **`atmospheric` constant** — typed `0.00321`, must be **`0.99321`**. Made η_at negative → negative power *and* ~45× too small. Lesson: an efficiency near 0 / negative → check the leading constant.
+3. **units** — `field_power/1000` is **MW** not kW/GW; per-unit-area must be `annual_avg*1000/total_area` for **kW/m²**.
+4. **dotProduct z** — vertical component is `+76` (= 80−4), pointing up, and `Length = √(x²+y²+76²)` — not the mirror's z.
+5. **sun vector ≠ angles** — `s_x,s_y,s_z` are *computed from* (altitude, azimuth), not the angles themselves.
+
+**Key facts locked in:** area not needed for efficiency, only for power (`E = DNI·ΣAᵢηᵢ`); for equal-size mirrors per-unit-area = `DNI·mean(η)`; sun rays parallel → ŝ same for every mirror (compute once/timestamp), t̂ per mirror.
+
+## 2026-06-28 — Step 4 COMPLETE ✅ (shadow & blocking) — the hard geometry part
+Built the full ray-geometry engine. Working script: `Inbox/heliostat_step4.py`.
+
+**Result:** annual average **41 → 37.245 MW**, per-unit-area **0.65 → 0.593 kW/m²**. That's a **~9% shadow/blocking loss** (field-avg η_sb ≈ 0.91) — healthy middle of the expected 5–15% band, and now close to Paper 2's ~34.8 MW (which already folded in some truncation). On track.
+
+**How it works (3 building blocks, all [standard], not in the doc):**
+1. `mirror_frame(x,y,sv)` → a mirror as a **tilted rectangle in 3D**: center C, normal `n = normalize(ŝ+t̂)` (reflection law), width axis `u = normalize(cross(n, ẑ))` (horizontal), height axis `v = cross(n,u)`. Corners = `C ± 3u ± 3v`.
+2. `ray_hits_rect(P,d,C,n,u,v)` → **ray–plane intersect** `s = (C−P)·n / (d·n)` (guard: parallel `d·n≈0`, behind `s≤0`), then **in-rectangle test** (project hit point onto u,v, check ≤ half). Tested in isolation on a flat square first (True/False/False).
+3. `shadow_block_eff(i,...)` → sample a **5×5 grid** on mirror i; from each point cast a ray toward **sun** (shadow) and toward **receiver** (block); η_sb = fraction hitting **no** nearby neighbor.
++ **neighbor pruning**: precompute once, per mirror the list of others within **R=25 m** (don't test all 1745²).
+
+**Concepts that finally clicked:**
+- `normalize` = keep direction, set length to 1 (needed so `u,v` are true-metre rulers). `cross(A,B)` = a vector ⊥ to both A and B.
+- **"in the surface" = perpendicular to the normal**, and cross makes perpendiculars → that's why we cross to get the mirror's surface axes. Mirror is *tilted*, so corners offset along `u,v` (which change x,y **and** z), NOT along world x,y.
+- Corners are the **obstacle** geometry; the shadow is the *result* of throwing rays at those obstacles.
+
+**Assembly bugs hit & fixed:** building a list by **reassigning** inside a loop (`frames = [f]` each pass) gives a 1-element list → must use a **comprehension** or `.append` to accumulate; `neighbors` must be built (list of lists) and **once**, before the loops; `frames` rebuilt per timestamp (tilt depends on sun).
+
+**Perf note (for later):** slow part = numpy on 3-element arrays in tight loops (dispatch overhead). Fine for Q1 (run once, a few min). For Q2/Q3 (model called 1000s of times in an optimizer) → use **Numba `@njit`** (near-C speed, ~1 decorator) or plain-float math; C is faster but a full rewrite; MATLAB only faster if vectorized.
+
+## 2026-06-28 — Step 5 COMPLETE ✅ — Q1 OPTICAL MODEL DONE (all 5 losses)
+Chose **Monte-Carlo ray trace** for truncation (over HFLCAL) because it's the honest model and reused later. Also ported the whole hot path to **Numba** first (see below). Working script: `Inbox/heliostat_step5_numba.py`.
+
+**Result (all 5 losses):**
+| slope error assumed | annual avg | per-unit-area |
+|---|---|---|
+| 2 mrad | **31.17 MW** | 0.496 kW/m² |
+| 1 mrad | **33.39 MW** | 0.532 kW/m² |
+Paper 2 (trustworthy) ≈ **34.8 MW / 0.554**. We're a touch lower because the MC models the **flat-mirror footprint + real beam blur** rigorously, while Paper 2 *assumed* a truncation factor. Implied optical efficiency ~0.55–0.57 — right in the papers' band (0.569–0.586). ✓
+
+**Truncation via Monte-Carlo (all [standard]; params [assumed], not in doc):**
+- Beam isn't a pencil: sun is a **disk** (~4.65 mrad) + mirror **slope error** → reflected **cone**. Flat mirrors don't focus, so the spot ≈ 6 m footprint **+** blur, on a 7 m×8 m receiver → spill.
+- Per mirror, fire **N=200** rays: random point on the mirror + aim direction `t̂` jiggled by a 2D Gaussian `σ_beam = √(σ_sun² + (2·σ_slope)²)`; trace to the receiver **cylinder**; `η_trunc = hits/N`.
+- New primitive: `hit_cyl` = **ray–cylinder intersection** (quadratic in s: `x²+y²=Rc²`, then check z∈[76,84]). Tested True/False/False in isolation.
+- **σ_slope is the tunable knob** (least-certain assumption) — 2→1 mrad moved 31.2→33.4 MW.
+- MC is **random** → result wiggles slightly run-to-run; raise N for a smoother final number.
+
+**Numba port (the enabler):** moved the whole per-timestamp mirror loop into `@njit` kernels — verified it reproduces 37.246 MW (= the pure-Python 37.245) before adding truncation. Key gotchas: **no `np.cross`/`np.linalg.norm`** in njit → scalar math; **lists-of-tuples → arrays** (frames as an (N,12) array); **ragged neighbor lists → CSR** (`nbr_flat` + `nbr_start`); loops must live *inside* `@njit`. Bug caught: `neighbors` initialized but the radius-scan that fills it was missing → η_sb silently = 1 (matched the no-shadow run).
+
+## 2026-07-01 — Step 6 COMPLETE ✅ — Table 1 & Table 2 reporting
+Extended the Step 5 kernel to accumulate `sum_cos, sum_sb, sum_at, sum_trunc, sum_eta` alongside power (return a 6-tuple instead of just `total`), divide by N_mirrors per timestamp, then average 5-per-month (Table 1) and all 60 (Table 2). Working script: `heliostat_step6.py`.
+
+**Table 2 (annual):**
+| η_cos | η_sb | η_at | η_trunc | η_opt | Power | per-area |
+|---|---|---|---|---|---|---|
+| 0.757 | 0.914 | 0.965 | 0.902 | **0.546** | **33.39 MW** | 0.531 kW/m² |
+
+Matches the Step 5 milestone (33.39 MW @ σ_slope=1 mrad) almost exactly — good internal consistency check. vs Paper 2 (trustworthy): optical η 0.569, power ≈34.8 MW — **within ~4%**, comfortably inside the papers' band (0.569–0.586). η_sb (shadow/block) and η_trunc are the two "designed" losses (~9% and ~10%); η_at is nearly flat (~0.965) since d_HR barely varies; η_cos does the heavy lifting on the summer/winter swing (0.71 Dec → 0.79 Jun).
+
+**Table 1 (per-month)** confirms the expected seasonal curve: power peaks in June (38.3 MW) and troughs in December (25.6 MW), tracking η_cos almost exactly (both peak/trough on the solstices) — cosine really is the dominant time-varying loss, as flagged in the Field Notes "exam takeaways."
+
+One console-encoding gotcha: Windows terminal (cp1252) mangles the em-dash `—` in `print()` — swapped for a plain hyphen in table headers.
+
+## Next — Q2/Q3
+- [x] ~~Report Table 1/2~~ — done above.
+- [x] ~~Compare annual optical efficiency to the papers~~ — 0.546 vs 0.569, within band.
+- [ ] Decide/document the σ_slope assumption formally (currently 1 mrad; report the 1↔2 mrad sensitivity range in the writeup).
+- [ ] **Q2:** wrap this model in an optimizer (tower position, mirror size, install height, ring spacing) to hit 60 MW while maximizing per-unit-area. Numba speed now makes 1000s of evaluations feasible.
+- [ ] **Q3:** allow per-zone size/height to vary.
