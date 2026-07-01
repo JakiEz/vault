@@ -1,8 +1,8 @@
 ---
 type: study-log
-description: Learning progress on the heliostat Python model — running log of what I understood and where to resume. Steps 1–3 DONE (solar geometry → easy losses → field power, ≈41 MW inflated); now on Step 4 (shadow & blocking).
+description: Learning progress on the heliostat Python model — running log of what I understood and where to resume. Steps 1–4 DONE (solar geometry → easy losses → field power → shadow/blocking, 37.2 MW); now on Step 5 (truncation).
 created: 2026-06-21
-updated: 2026-06-23
+updated: 2026-06-28
 related: [[Heliostat_Field_Notes]]
 ---
 
@@ -19,8 +19,8 @@ Power chain: `sun position → DNI (light strength) × 5 efficiency losses × mi
 1. **Solar geometry** → sun direction + DNI for 60 timestamps ✅ **done 2026-06-21**
 2. Easy losses (cosine, atmospheric, reflectivity) — per-mirror formulas ✅ **done 2026-06-23**
 3. Aggregate with η_sb = η_trunc = 1 → inflated number (proves plumbing) ✅ **done 2026-06-23**
-4. Shadow & blocking (η_sb) — ray-casting vs neighbors ← *I am here*
-5. Truncation (η_trunc) — beam is a cone, spills off receiver
+4. Shadow & blocking (η_sb) — ray-casting vs neighbors ✅ **done 2026-06-28**
+5. Truncation (η_trunc) — beam is a cone, spills off receiver ← *I am here*
 6. Validate against **~35 MW** (Paper 2, the trustworthy one)
 → then Q2/Q3 wrap step 1–6 in an optimizer.
 
@@ -110,8 +110,28 @@ Full pipeline runs end-to-end for all 60 timestamps. Chose the **azimuth route**
 
 **Key facts locked in:** area not needed for efficiency, only for power (`E = DNI·ΣAᵢηᵢ`); for equal-size mirrors per-unit-area = `DNI·mean(η)`; sun rays parallel → ŝ same for every mirror (compute once/timestamp), t̂ per mirror.
 
-## Next — Step 4: shadow & blocking (η_sb), the first hard loss
-- [ ] Concept: **shadow** = a neighbor blocks the *incoming* sun ray; **block** = a neighbor blocks the *outgoing* reflected beam to the tower. Plus tower shadow.
-- [ ] Method: sample points across each mirror; cast a ray toward ŝ (shadow) and toward t̂ (block); test intersection with *nearby* neighbor rectangles (use a spatial index / radius — don't test all 1745²). η_sb = fraction of sample points that are clear.
-- [ ] Core primitive to write & unit-test alone first: **ray → does it hit neighbor rectangle j?** (ray–plane intersect + in-rectangle test).
-- [ ] Expect η_sb to drop the field ~10–20% → toward ~35 MW with truncation still = 1.
+## 2026-06-28 — Step 4 COMPLETE ✅ (shadow & blocking) — the hard geometry part
+Built the full ray-geometry engine. Working script: `Inbox/heliostat_step4.py`.
+
+**Result:** annual average **41 → 37.245 MW**, per-unit-area **0.65 → 0.593 kW/m²**. That's a **~9% shadow/blocking loss** (field-avg η_sb ≈ 0.91) — healthy middle of the expected 5–15% band, and now close to Paper 2's ~34.8 MW (which already folded in some truncation). On track.
+
+**How it works (3 building blocks, all [standard], not in the doc):**
+1. `mirror_frame(x,y,sv)` → a mirror as a **tilted rectangle in 3D**: center C, normal `n = normalize(ŝ+t̂)` (reflection law), width axis `u = normalize(cross(n, ẑ))` (horizontal), height axis `v = cross(n,u)`. Corners = `C ± 3u ± 3v`.
+2. `ray_hits_rect(P,d,C,n,u,v)` → **ray–plane intersect** `s = (C−P)·n / (d·n)` (guard: parallel `d·n≈0`, behind `s≤0`), then **in-rectangle test** (project hit point onto u,v, check ≤ half). Tested in isolation on a flat square first (True/False/False).
+3. `shadow_block_eff(i,...)` → sample a **5×5 grid** on mirror i; from each point cast a ray toward **sun** (shadow) and toward **receiver** (block); η_sb = fraction hitting **no** nearby neighbor.
++ **neighbor pruning**: precompute once, per mirror the list of others within **R=25 m** (don't test all 1745²).
+
+**Concepts that finally clicked:**
+- `normalize` = keep direction, set length to 1 (needed so `u,v` are true-metre rulers). `cross(A,B)` = a vector ⊥ to both A and B.
+- **"in the surface" = perpendicular to the normal**, and cross makes perpendiculars → that's why we cross to get the mirror's surface axes. Mirror is *tilted*, so corners offset along `u,v` (which change x,y **and** z), NOT along world x,y.
+- Corners are the **obstacle** geometry; the shadow is the *result* of throwing rays at those obstacles.
+
+**Assembly bugs hit & fixed:** building a list by **reassigning** inside a loop (`frames = [f]` each pass) gives a 1-element list → must use a **comprehension** or `.append` to accumulate; `neighbors` must be built (list of lists) and **once**, before the loops; `frames` rebuilt per timestamp (tilt depends on sun).
+
+**Perf note (for later):** slow part = numpy on 3-element arrays in tight loops (dispatch overhead). Fine for Q1 (run once, a few min). For Q2/Q3 (model called 1000s of times in an optimizer) → use **Numba `@njit`** (near-C speed, ~1 decorator) or plain-float math; C is faster but a full rewrite; MATLAB only faster if vectorized.
+
+## Next — Step 5: truncation (η_trunc), the last Q1 loss
+- [ ] Concept: reflected beam is a **cone** (sun angular width ~9.3 mrad + mirror slope error), so the spot at the tower is bigger than the 7 m × 8 m receiver → edges spill off and are lost.
+- [ ] Pick a method: **HFLCAL analytic** (model spot as a 2D Gaussian, integrate over the receiver aperture — fast, recommended) vs **Monte-Carlo ray trace** (sample many rays, count hits — accurate, what Paper 2 does).
+- [ ] Expect 37.2 → **~35 MW**, completing Q1's optical model (validate vs Paper 2 ≈ 34.8).
+- [ ] Then fill Table 1 (per-month) & Table 2 (annual) with the 4 sub-efficiencies + per-unit-area output.
