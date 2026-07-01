@@ -96,10 +96,25 @@ $$\eta_{sb} = \frac{\text{clear points}}{\text{total points}}$$
 
 ---
 
-## Step 5 — Truncation η_trunc — [TODO, currently = 1]
-Reflected beam is a **cone** (sun angular width ~9.3 mrad + mirror slope error) → the spot at the tower is bigger than the 7 m × 8 m receiver, so the edges spill off.
-$$\eta_{trunc} = \frac{\text{energy on the receiver}}{\text{total reflected energy}}\quad\text{[Problem doc, definition only]}$$
-Method to choose: **HFLCAL** (spot as a 2D Gaussian, integrate over aperture — fast) vs **Monte-Carlo ray trace** (accurate). Expect it to take 37.2 → **~35 MW**.
+## Step 5 — Truncation η_trunc — Monte-Carlo ray trace
+Reflected beam is a **cone** (sun is a disk, not a point + mirror slope error) → the spot at the tower is bigger than the 7 m × 8 m receiver, so the edges spill off. Flat mirrors don't focus, so spot ≈ 6 m footprint **+** blur.
+$$\eta_{trunc} = \frac{\text{energy on the receiver}}{\text{total reflected energy}}\quad\text{[Problem doc — definition only]}$$
+
+**Beam spread** (params [assumed], not in doc):
+$$\sigma_{beam} = \sqrt{\sigma_{sun}^2 + (2\sigma_{slope})^2},\qquad \sigma_{sun}\approx 2.51\text{ mrad [standard]},\ \ \sigma_{slope}\approx 1\text{–}2\text{ mrad [assumed, tunable knob]}$$
+
+**Monte-Carlo per mirror** — [standard] — fire `N = 200` rays:
+1. random start point on the mirror: $P = C + r_1\hat u + r_2\hat v,\quad r_1,r_2 \sim U(-3,3)$
+2. jiggle the aim direction $\hat t$ by a 2D Gaussian (axes $e_1 = \widehat{\hat t\times\hat z}$, $e_2 = \hat t\times e_1$):
+$$\vec r = \hat t + \theta_1 e_1 + \theta_2 e_2,\quad \theta_1,\theta_2 \sim N(0,\sigma_{beam}),\qquad \hat r = \vec r/|\vec r|$$
+3. trace to the **receiver cylinder** (`hit_cyl`) → count hits
+$$\eta_{trunc} = \frac{\text{rays that hit}}{N}$$
+
+**Ray → cylinder intersection** — [standard] — receiver: radius $R_c=3.5$, axis vertical, $z\in[76,84]$. Ray $P+s\vec r$ hits the side where $x^2+y^2=R_c^2$ → quadratic:
+$$A s^2 + Bs + C = 0,\quad A=r_x^2+r_y^2,\ \ B=2(P_xr_x+P_yr_y),\ \ C=P_x^2+P_y^2-R_c^2$$
+$$\text{disc}=B^2-4AC;\ \ \text{if }<0\ \text{miss};\quad s=\frac{-B-\sqrt{\text{disc}}}{2A};\ \ \text{hit} \iff s>0\ \text{and}\ 76\le P_z+s r_z\le 84$$
+
+> Note: MC is **random** → the result wiggles slightly run-to-run; raise `N` to smooth it. Result: **31.2 MW** (σ_slope 2 mrad) / **33.4 MW** (1 mrad).
 
 ---
 
@@ -112,5 +127,5 @@ $$E_{field}\,[\text{MW}] = \frac{\text{field power [kW]}}{1000},\qquad \text{per
 ---
 
 ## Current status
-✅ Steps 1–4 (η_trunc = 1) → annual **37.245 MW**, **0.593 kW/m²**. 🔜 Step 5 truncation → ~35 MW.
-Companion notes: [[Heliostat_CodeMap]] (functions), [[Heliostat_StudyLog]] (journey + bugs), [[Heliostat_Field_Notes]] (problem/physics).
+✅ **Q1 optical model COMPLETE** (all 5 losses, Numba + MC) → **31.2 MW** (2 mrad slope) / **33.4 MW** (1 mrad), ~0.5 kW/m², optical efficiency **~0.56** (papers: 0.569–0.586). 🔜 Step 6: fill Table 1/2 (per-month + annual sub-efficiencies), then Q2/Q3 optimization.
+Companion notes: [[Heliostat_CodeMap]] (functions), [[Heliostat_StudyLog]] (journey + bugs), [[Heliostat_Field_Notes]] (problem/physics). Script: `heliostat_step5_numba.py`.
