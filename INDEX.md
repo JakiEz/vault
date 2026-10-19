@@ -1,7 +1,7 @@
 ---
 type: moc
 description: Map of Content — 1–2 line summary of every note in the vault. Read this first to find the right file without opening all of them.
-updated: 2026-06-16
+updated: 2026-10-19
 ---
 
 # Vault Index (Map of Content)
@@ -26,6 +26,7 @@ updated: 2026-06-16
 ## 4th-year project
 
 - [[cpe-thesis-advisors]] — KMUTT CPE thesis/senior-project advisors and their research fields; reference for picking an advisor. In `4thyearproject/`.
+- [[sar-visual-grounding-lit-review]] — Lit review of SAR (radar) visual grounding 2025–2026: datasets (SARVG, SAAVG, OptSAR-RSVG), SAR VLM benchmarks, RS-MLLM coverage, and **ranked thesis gaps** (rec: generalized referring segmentation on SAR ships). In `Inbox/`.
 
 ## Projects
 
