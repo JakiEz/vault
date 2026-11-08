@@ -1,7 +1,7 @@
 ---
 type: moc
 description: Map of Content — 1–2 line summary of every note in the vault. Read this first to find the right file without opening all of them.
-updated: 2026-10-19
+updated: 2026-11-08
 ---
 
 # Vault Index (Map of Content)
@@ -27,6 +27,7 @@ updated: 2026-10-19
 
 - [[cpe-thesis-advisors]] — KMUTT CPE thesis/senior-project advisors and their research fields; reference for picking an advisor. In `4thyearproject/`.
 - [[sar-visual-grounding-lit-review]] — Lit review of SAR (radar) visual grounding 2025–2026: datasets (SARVG, SAAVG, OptSAR-RSVG), SAR VLM benchmarks, RS-MLLM coverage, and **ranked thesis gaps** (rec: generalized referring segmentation on SAR ships). In `Inbox/`.
+- [[thai-sar-refexp-related-work]] — Related-work table for the **Thai referring-expression SAR ship dataset** proposal: the 5 core sources (RefCOCO/+, RefCOCOg, ReferItGame, SSDD, Northcutt label errors) with each one's key limitation, plus the stated gap (Thai + SAR + RefExp + verified test set) and open decisions. In `4thyearproject/`.
 
 ## Projects
 
