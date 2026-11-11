@@ -1,7 +1,7 @@
 ---
 type: moc
 description: Map of Content — 1–2 line summary of every note in the vault. Read this first to find the right file without opening all of them.
-updated: 2026-11-08
+updated: 2026-11-11
 ---
 
 # Vault Index (Map of Content)
@@ -27,6 +27,11 @@ updated: 2026-11-08
 
 - [[cpe-thesis-advisors]] — KMUTT CPE thesis/senior-project advisors and their research fields; reference for picking an advisor. In `4thyearproject/`.
 - [[sar-visual-grounding-lit-review]] — Lit review of SAR (radar) visual grounding 2025–2026: datasets (SARVG, SAAVG, OptSAR-RSVG), SAR VLM benchmarks, RS-MLLM coverage, and **ranked thesis gaps** (rec: generalized referring segmentation on SAR ships). In `Inbox/`.
+- [[sar-thesis-hub]] — **Hub for the SAR thesis** (Thai referring expressions for SAR ship grounding): links every note below, open decisions, log. Visual map: `sar-thesis-map.canvas`. **Start here for the thesis.** In `4thyearproject/`.
+- [[optisar-net-plusplus]] — OptiSAR-Net++ / OptSAR-RSVG (arXiv 2603.24876): one image per input (rejects co-registered pairs), repo facts, **18 limitations with section refs**. Thesis base model. In `4thyearproject/`.
+- [[thesis-purpose-framing]] — Why the project matters: 4 framings ranked (lead: model-vs-label failure at strict IoU), draft thesis statement, scope. In `4thyearproject/`.
+- [[encoder-swap-experiment-plan]] — How to adapt OptiSAR-Net++ to Thai: encoder candidates, 4 justified changes, what to keep, SAR-only vs joint decision. In `4thyearproject/`.
+- [[sar-imaging-concepts]] — SAR background for the defense: synthetic aperture / no frame rate, revisit, why ship pairs fail, speckle, CNN vs Transformer. In `4thyearproject/`.
 - [[thai-sar-refexp-related-work]] — Related-work table for the **Thai referring-expression SAR ship dataset** proposal: the 5 core sources (RefCOCO/+, RefCOCOg, ReferItGame, SSDD, Northcutt label errors) with each one's key limitation, plus the stated gap (Thai + SAR + RefExp + verified test set) and open decisions. In `4thyearproject/`.
 
 ## Projects

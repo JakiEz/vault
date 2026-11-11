@@ -2,7 +2,7 @@
 type: related-work
 description: Related-work table for the Thai referring-expression SAR ship-detection dataset proposal — 5 core sources, each with its key limitation, and the stated research gap (Thai + SAR + RefExp + verified test set).
 created: 2026-11-08
-updated: 2026-11-08
+updated: 2026-11-11
 ---
 
 # Related Work — Thai Referring-Expression Dataset for SAR Ship Detection
@@ -42,6 +42,9 @@ updated: 2026-11-08
 
 ## Links
 
+- [[sar-thesis-hub]] — hub for the whole SAR thesis topic.
+- [[optisar-net-plusplus]] — **source #6**: the current SOTA cross-domain model/dataset, with 18 limitations. Its label-error filter (§IV-A) weakens the novelty of source #5 above.
+- [[thesis-purpose-framing]] — how this gap becomes the thesis statement.
 - [[sar-visual-grounding-lit-review]] — broader 2025–2026 SAR grounding field scan (SARVG, SAAVG, OptSAR-RSVG, SARChat-Bench-2M).
 - [[cpe-thesis-advisors]] — KMUTT CPE advisor fields, for picking a supervisor for this topic.
 

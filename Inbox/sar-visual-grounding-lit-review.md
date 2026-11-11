@@ -7,6 +7,8 @@ updated: 2026-10-19
 
 # SAR Visual Grounding — Literature Review & Thesis Gaps
 
+> **Related:** [[sar-thesis-hub]] (project hub) · [[optisar-net-plusplus]] (OptiSAR-Net++ read in full, 2026-11-09) · [[thai-sar-refexp-related-work]]
+
 ## TL;DR
 
 - **Task:** given a SAR image + a text expression ("the largest ship near the dock"), output the box/mask of the referred target.

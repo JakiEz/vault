@@ -1,0 +1,243 @@
+{
+ "nodes": [
+  {
+   "id": "hub",
+   "type": "file",
+   "file": "4thyearproject/sar-thesis-hub.md",
+   "x": 0,
+   "y": 0,
+   "width": 420,
+   "height": 300,
+   "color": "6"
+  },
+  {
+   "id": "lit",
+   "type": "file",
+   "file": "Inbox/sar-visual-grounding-lit-review.md",
+   "x": -560,
+   "y": -420,
+   "width": 380,
+   "height": 260,
+   "color": "4"
+  },
+  {
+   "id": "rw",
+   "type": "file",
+   "file": "4thyearproject/thai-sar-refexp-related-work.md",
+   "x": 0,
+   "y": -420,
+   "width": 380,
+   "height": 260,
+   "color": "4"
+  },
+  {
+   "id": "opt",
+   "type": "file",
+   "file": "4thyearproject/optisar-net-plusplus.md",
+   "x": 560,
+   "y": -420,
+   "width": 380,
+   "height": 260,
+   "color": "1"
+  },
+  {
+   "id": "purp",
+   "type": "file",
+   "file": "4thyearproject/thesis-purpose-framing.md",
+   "x": -560,
+   "y": 420,
+   "width": 380,
+   "height": 260,
+   "color": "3"
+  },
+  {
+   "id": "exp",
+   "type": "file",
+   "file": "4thyearproject/encoder-swap-experiment-plan.md",
+   "x": 560,
+   "y": 420,
+   "width": 380,
+   "height": 260,
+   "color": "5"
+  },
+  {
+   "id": "con",
+   "type": "file",
+   "file": "4thyearproject/sar-imaging-concepts.md",
+   "x": -1100,
+   "y": 0,
+   "width": 380,
+   "height": 260,
+   "color": "2"
+  },
+  {
+   "id": "adv",
+   "type": "file",
+   "file": "4thyearproject/cpe-thesis-advisors.md",
+   "x": 0,
+   "y": 420,
+   "width": 320,
+   "height": 200
+  },
+  {
+   "id": "src",
+   "type": "text",
+   "text": "**Foundational sources**\n1 RefCOCO/+ (ECCV'16)\n2 RefCOCOg (CVPR'16)\n3 ReferItGame (EMNLP'14)\n4 SSDD (RS'21)\n5 Northcutt label errors (NeurIPS'21)",
+   "x": 0,
+   "y": -820,
+   "width": 320,
+   "height": 220
+  },
+  {
+   "id": "gap",
+   "type": "text",
+   "text": "**Core gap**\nSAR Pr@0.9 ≈37% vs optical ≈69%\nModel or labels? → verified test set",
+   "x": 1100,
+   "y": -420,
+   "width": 320,
+   "height": 180,
+   "color": "1"
+  },
+  {
+   "id": "dec",
+   "type": "text",
+   "text": "**Open decision**\nSAR-only vs joint training",
+   "x": 1100,
+   "y": 420,
+   "width": 300,
+   "height": 140,
+   "color": "1"
+  },
+  {
+   "id": "thai",
+   "type": "text",
+   "text": "**Thai VLMs**\nTyphoon2-Vision, ThaiOCRBench\n(docs only, no RS) → zero-shot baseline",
+   "x": -1100,
+   "y": 420,
+   "width": 320,
+   "height": 180,
+   "color": "3"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e0",
+   "fromNode": "hub",
+   "toNode": "rw",
+   "label": "overview",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e1",
+   "fromNode": "hub",
+   "toNode": "opt",
+   "label": "base model",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e2",
+   "fromNode": "hub",
+   "toNode": "purp",
+   "label": "why",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e3",
+   "fromNode": "hub",
+   "toNode": "exp",
+   "label": "how",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e4",
+   "fromNode": "hub",
+   "toNode": "con",
+   "label": "background",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e5",
+   "fromNode": "hub",
+   "toNode": "adv",
+   "label": "supervisor",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e6",
+   "fromNode": "lit",
+   "toNode": "rw",
+   "label": "narrows to",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e7",
+   "fromNode": "src",
+   "toNode": "rw",
+   "label": "analysed in",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e8",
+   "fromNode": "rw",
+   "toNode": "opt",
+   "label": "source #6",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e9",
+   "fromNode": "opt",
+   "toNode": "gap",
+   "label": "shows",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e10",
+   "fromNode": "gap",
+   "toNode": "purp",
+   "label": "motivates",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e11",
+   "fromNode": "opt",
+   "toNode": "exp",
+   "label": "modified by",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e12",
+   "fromNode": "exp",
+   "toNode": "purp",
+   "label": "tests",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e13",
+   "fromNode": "exp",
+   "toNode": "dec",
+   "label": "needs",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e14",
+   "fromNode": "con",
+   "toNode": "opt",
+   "label": "explains limits",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e15",
+   "fromNode": "thai",
+   "toNode": "purp",
+   "label": "framing D",
+   "toEnd": "arrow"
+  },
+  {
+   "id": "e16",
+   "fromNode": "lit",
+   "toNode": "opt",
+   "label": "lists",
+   "toEnd": "arrow"
+  }
+ ]
+}
